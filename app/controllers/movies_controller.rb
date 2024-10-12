@@ -1,16 +1,34 @@
 class MoviesController < ApplicationController
   before_action :set_movie, only: [:show, :update, :destroy]
   
-    def movies_by_category
-      category = Category.find_by(name: params[:category_name])
+  def movies_by_category
+    category = Category.find_by(genero: params[:category_name])
   
       if category
-        movies = category.movies
+        movies = category.movie
         render json: movies, status: :ok
       else
         render json: { error: 'Category not found' }, status: :not_found
       end
-    end
+  end
+  def movies_with_categories
+    movie = Movie.find_by(titulo: params[:movie_name])
+  
+      if movie
+        categories = movie.categories
+        sumaries = movie.sumary
+        
+        render json: {
+          movie: movie.titulo,
+          categories: categories.map { |category| category.genero },
+          sumaries: sumaries ? { sinopsis: sumaries.sinopsis, critica: sumaries.critica } : nil
+        },status: :ok
+          
+        
+      else
+        render json: { error: 'Movie not found' }, status: :not_found
+      end
+  end
 
     
   # GET /movies

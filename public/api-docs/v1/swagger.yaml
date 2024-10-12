@@ -1,0 +1,439 @@
+openapi: 3.0.1
+info:
+  title: Movie API
+  description: API for managing movies, categories, and summaries.
+  version: "1.0.0"
+
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Categories
+    description: Operations related to movie categories
+  - name: Movies
+    description: Operations related to movies
+  - name: Sumaries
+    description: Operations related to movie summaries
+
+paths:
+  /categories:
+    get:
+      tags:
+        - Categories
+      summary: Retrieves all categories
+      responses:
+        '200':
+          description: Categories found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    genero:
+                      type: string
+      post:
+        tags:
+          - Categories
+        summary: Creates a category
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  genero:
+                    type: string
+                required:
+                  - genero
+        responses:
+          '201':
+            description: Category created
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    genero:
+                      type: string
+          '422':
+            description: Invalid request
+
+  /categories/{id}:
+    get:
+      tags:
+        - Categories
+      summary: Retrieves a category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Category found
+        '404':
+          description: Category not found
+    patch:
+      tags:
+        - Categories
+      summary: Updates a category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                genero:
+                  type: string
+              required:
+                - genero
+      responses:
+        '200':
+          description: Category updated
+        '404':
+          description: Category not found
+        '422':
+          description: Invalid request
+    delete:
+      tags:
+        - Categories
+      summary: Deletes a category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Category deleted
+        '404':
+          description: Category not found
+
+  /categories/{id}/movies:
+    get:
+      tags:
+        - Categories
+      summary: Retrieves all movies for a category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Movies found
+        '404':
+          description: Category not found
+
+  /movies:
+    get:
+      tags:
+        - Movies
+      summary: Retrieves all movies
+      responses:
+        200:
+          description: A list of movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Movie"
+    post:
+      tags:
+        - Movies
+      summary: Creates a movie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                fecha_lanzamiento:
+                  type: string
+                  format: date
+                category_ids:
+                  type: array
+                  items:
+                    type: integer
+              required:
+                - titulo
+                - fecha_lanzamiento
+      responses:
+        201:
+          description: Movie created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        422:
+          description: Invalid request
+
+  /movies/{id}:
+    get:
+      tags:
+        - Movies
+      summary: Retrieves a movie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Movie ID
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Movie found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movie"
+        404:
+          description: Movie not found
+
+  /movies_by_category:
+    get:
+      tags:
+        - Movies
+      summary: Retrieves movies by category
+      parameters:
+        - name: category_name
+          in: query
+          required: true
+          description: Category Name
+          schema:
+            type: string
+      responses:
+        200:
+          description: Movies found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Movie"
+        404:
+          description: Category not found
+
+  /movies_with_categories:
+    get:
+      tags:
+        - Movies
+      summary: Retrieves categories and summary for a movie
+      parameters:
+        - name: movie_name
+          in: query
+          required: true
+          description: Movie Name
+          schema:
+            type: string
+      responses:
+        200:
+          description: Movie found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  movie:
+                    $ref: "#/components/schemas/Movie"
+                  categories:
+                    type: array
+                    items:
+                      type: string
+                  sumaries:
+                    type: object
+                    properties:
+                      sinopsis:
+                        type: string
+                      critica:
+                        type: string
+        404:
+          description: Movie not found
+
+  /sumaries:
+    get:
+      tags:
+        - Sumaries
+      summary: Retrieves all summaries
+      responses:
+        '200':
+          description: Summaries found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sinopsis:
+                      type: string
+                    critica:
+                      type: string
+                    movie_id:
+                      type: integer
+    post:
+      tags:
+        - Sumaries
+      summary: Creates a summary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sinopsis:
+                  type: string
+                critica:
+                  type: string
+                movie_id:
+                  type: integer
+              required:
+                - sinopsis
+                - critica
+                - movie_id
+      responses:
+        '201':
+          description: Summary created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sinopsis:
+                    type: string
+                  critica:
+                    type: string
+                  movie_id:
+                    type: integer
+        '422':
+          description: Invalid request
+
+  /sumaries/{id}:
+    get:
+      tags:
+        - Sumaries
+      summary: Retrieves a summary
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Summary ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Summary found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sinopsis:
+                    type: string
+                  critica:
+                    type: string
+                  movie_id:
+                    type: integer
+        '404':
+          description: Summary not found
+    patch:
+      tags:
+        - Sumaries
+      summary: Updates a summary
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Summary ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sinopsis:
+                  type: string
+                critica:
+                  type: string
+              required:
+                - sinopsis
+                - critica
+      responses:
+        '200':
+          description: Summary updated
+        '404':
+          description: Summary not found
+        '422':
+          description: Invalid request
+    delete:
+      tags:
+        - Sumaries
+      summary: Deletes a summary
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Summary ID
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Summary deleted
+        '404':
+          description: Summary not found
+
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        id:
+          type: integer
+        titulo:
+          type: string
+        fecha_lanzamiento:
+          type: string
+          format: date
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        genero:
+          type: string
+    Summary:
+      type: object
+      properties:
+        id:
+          type: integer
+        sinopsis:
+          type: string
+        critica:
+          type: string
+        movie_id:
+          type: integer
