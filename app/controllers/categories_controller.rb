@@ -4,7 +4,6 @@ class CategoriesController < ApplicationController
   # GET /categories
   def index
     @categories = Category.all
-
     render json: @categories
   end
 
@@ -38,14 +37,26 @@ class CategoriesController < ApplicationController
     @category.destroy
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_category
-      @category = Category.find(params[:id])
-    end
+  # GET /categories/:id/movies
+  def movies
 
-    # Only allow a list of trusted parameters through.
-    def category_params
-      params.require(:category).permit(:genero)
-    end
+  @categories = Categories.find(params[:categories_id])
+  @movies = @category.movies
+    render json: @movies
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Category not found" }, status: :not_found
+ 
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_category
+    @category = Category.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def category_params
+    params.require(:category).permit(:genero)
+  end
 end
