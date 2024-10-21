@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nuevo Hechizo</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div class="form-container">
+    <h1>Nuevo Hechizo</h1>
+
+    <%= form_with url: nimbus_create_spell_path, method: :post, local: true do |form| %>
+      <div>
+        <%= form.label :name, "Nombre" %>
+        <%= form.text_field :name %>
+      </div>
+
+      <div>
+        <%= form.label :spell_type, "Tipo de Hechizo" %>
+        <%= form.text_field :spell_type %>
+      </div>
+
+      <div>
+        <%= form.label :effect, "Efecto" %>
+        <%= form.text_field :effect %>
+      </div>
+
+      <div>
+        <%= form.submit "Enviar" %>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>

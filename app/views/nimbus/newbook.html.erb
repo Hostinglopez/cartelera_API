@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nuevo Libro</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div class="form-container">
+    <h1>Nuevo Libro</h1>
+
+    <%= form_with url: nimbus_create_book_path, method: :post, local: true do |form| %>
+      <div>
+        <%= form.label :title, "Título" %>
+        <%= form.text_field :title %>
+      </div>
+
+      <div>
+        <%= form.label :author, "Autor" %>
+        <%= form.text_field :author %>
+      </div>
+
+      <div>
+        <%= form.label :pdf_url, "PDF" %>
+        <%= form.text_field :pdf_url %>
+      </div>
+
+      <div>
+        <%= form.submit "Enviar" %>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>

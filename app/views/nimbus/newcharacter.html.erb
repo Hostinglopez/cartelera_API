@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nuevo Personaje</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div class="form-container">
+    <h1>Nuevo Personaje</h1>
+
+    <%= form_with url: nimbus_create_character_path, method: :post, local: true, scope: :character do |form| %>
+      <div>
+        <%= form.label :name, "Nombre" %>
+        <%= form.text_field :name %>
+      </div>
+
+      <div>
+        <%= form.label :species, "Especie" %>
+        <%= form.text_field :species %>
+      </div>
+
+      <div>
+        <%= form.label :patronus, "Patronus" %>
+        <%= form.text_field :patronus %>
+      </div>
+
+      <div>
+        <%= form.label :wand, "Varita" %>
+        <%= form.text_field :wand %>
+      </div>
+
+      <div>
+        <%= form.label :house_id, "Casa" %>
+        <%= form.collection_select :house_id, @houses, ->(house) { house['id'] }, ->(house) { house['name'] }, prompt: "Selecciona una casa" %>
+      </div>
+
+      <div>
+        <%= form.submit "Enviar" %>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>
+

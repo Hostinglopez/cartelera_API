@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nuevo Usuario</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div class="form-container">
+    <h1>Nuevo Usuario</h1>
+
+    <%= form_with url: nimbus_create_user_path, method: :post, local: true do |form| %>
+      <div>
+        <%= form.label :email, "Email" %>
+        <%= form.text_field :email %>
+      </div>
+
+      <div>
+        <%= form.label :password, "Contraseña" %>
+        <%= form.password_field :password %>
+      </div>
+
+      <div>
+        <%= form.submit "Enviar" %>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nueva Casa</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div class="form-container">
+    <h1>Nueva Casa</h1>
+
+    <%= form_with url: nimbus_create_house_path, method: :post, local: true do |form| %>
+      <div>
+        <%= form.label :name, "Nombre" %>
+        <%= form.text_field :name %>
+      </div>
+
+      <div>
+        <%= form.label :founder, "Fundador" %>
+        <%= form.text_field :founder %>
+      </div>
+
+      <div>
+        <%= form.label :colors, "Colores" %>
+        <%= form.text_field :colors %>
+      </div>
+
+      <div>
+        <%= form.label :animal, "Animal" %>
+        <%= form.text_field :animal %>
+      </div>
+
+      <div>
+        <%= form.submit "Enviar" %>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>

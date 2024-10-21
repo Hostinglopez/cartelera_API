@@ -11,6 +11,10 @@ gem 'mysql2', '~> 0.5'
 gem 'puma', '~> 5.0'
 gem 'rspec','~> 3.13.0'
 gem 'rswag', '~>2.10.1'
+gem 'rest-client'
+
+gem "jbuilder"
+
 
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -23,11 +27,12 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
   gem 'rswag-specs'
+    gem 'rails-controller-testing'
 end
 
 group :development do
   gem 'listen', '~> 3.3'
-  
+
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
